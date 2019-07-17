@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import './dummy_data.dart';
 
 class CategoryMealsScreen extends StatelessWidget {
   // 他画面からデータ受取り
@@ -13,13 +14,19 @@ class CategoryMealsScreen extends StatelessWidget {
         ModalRoute.of(context).settings.arguments as Map<String, String>;
     final categoryId = routeArgs['id'];
     final categoryTitle = routeArgs['title'];
+    final categoryMeals = DUMMY_MEALS.where((meal) {
+      return meal.categories.contains(categoryId);
+    }).toList();
 
     return Scaffold(
       appBar: AppBar(
         title: Text(categoryTitle),
       ),
-      body: Center(
-        child: Text('The Recipes For The Category!'),
+      body: ListView.builder(
+        itemBuilder: (ctx, index) {
+          return Text(categoryMeals[index].title);
+        },
+        itemCount: categoryMeals.length,
       ),
     );
   }
